@@ -16,7 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+import users.views
+
 urlpatterns = [
     path('', include('blog.urls')),
+    path('register/', users.views.register, name='users-register'),
+    path('login/', users.views.login, name='users-login'),
     path('admin/', admin.site.urls)
 ]
