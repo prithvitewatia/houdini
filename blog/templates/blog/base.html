@@ -32,7 +32,7 @@
                         <div class="dropdown">
                             <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+                                <img src="{{ user.profile.image.url }}"
                                      width="40" height="40" class="rounded-circle">
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -59,7 +59,7 @@
                     </div>
                 {% endfor %}
             {% endif %}
-            {% block content %}{% endblock %}
+            {% block content %}{% endblock content %}
         </div>
         <div class="col-md-4">
             <div class="content-section">

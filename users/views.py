@@ -1,6 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+
+from blog.models import Post
 from .forms import UserRegisterForm
 
 
@@ -22,4 +24,7 @@ def register(request):
 
 @login_required
 def profile(request):
-    return render(request, 'users/profile.html')
+    posts = Post.objects.filter(author__username=request.user.username)
+    return render(request, 'users/profile.html', {
+        'posts': posts
+    })

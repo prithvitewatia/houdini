@@ -1,4 +1,19 @@
 {% extends 'blog/base.html' %}
-{%  block content %}
-    Welcome to your profile page {{ user.username }}
+{% block content %}
+    <div class="content-section">
+        <div class="media">
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+            <div class="media-body">
+                <h2 class="account-heading">{{ user.first_name|title }} {{ user.last_name }}</h2>
+                <p class="text-secondary">{{ user.email }}</p>
+            </div>
+        </div>
+        <!-- FORM HERE -->
+    </div>
+    {% for post in posts %}
+        <article class="media content-section">
+        <div class="article-title">{{ post.title }}</div>
+        <div class="article-content">{{ post.content }}</div>
+    </article>
+    {% endfor %}
 {% endblock content %}
