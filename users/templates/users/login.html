@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>login</title>
-</head>
-<body>
-Login form
-</body>
-</html>
+{% extends 'blog/base.html' %}
+{%  load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+    <form method="post">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Login</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group mb-4">
+            <button class="btn btn-outline-info" type="submit">Login</button>
+        </div>
+    </form>
+    <div class="border-top pt-3">
+        <small class="text-muted">Don't have an account?
+            <a href="{% url 'users-register' %}">Create one today</a>
+        </small>
+    </div>
+    </div>
+{% endblock content %}

@@ -10,26 +10,40 @@
     <link rel="stylesheet"
           type="text/css"
           href="{% static 'blog/main.css' %}">
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
 </head>
 <body>
 <header class="site-header">
     <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
         <div class="container">
-            <a class="navbar-brand mr-4" href="/">Django Blog</a>
+            <a class="navbar-brand ms-4" href="/">Django Blog</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
                     aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarToggle">
-                <div class="navbar-nav mr-auto">
+                <div class="navbar-nav me-auto">
                     <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
                     <a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a>
                 </div>
                 <!-- Navbar Right Side -->
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="{% url 'users-login' %}">Login</a>
-                    <a class="nav-item nav-link" href="{% url 'users-register' %}">Register</a>
+                    {% if user.is_authenticated %}
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+                                     width="40" height="40" class="rounded-circle">
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="{% url 'users-profile' %}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'users-logout' %}">Logout</a></li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <a class="nav-item nav-link me-auto" href="{% url 'users-login' %}">Login</a>
+                        <a class="nav-item nav-link me-auto" href="{% url 'users-register' %}">Register</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

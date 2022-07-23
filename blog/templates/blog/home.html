@@ -2,14 +2,23 @@
 {% block content %}
     {% for post in posts %}
         <article class="media content-section">
+            <div class="article-title" href="#"><h3>{{ post.title }}</h3></div>
             <div class="media-body">
                 <div class="article-metadata">
-                    <a class="mr-2" href="#">{{ post.author }}</a>
-                    <small class="text-muted d-flex justify-content-end">{{ post.date_posted|date:"F d, Y" }}</small>
+                    <small><a class="mr-2" href="#">{{ post.author }}</a></small>
                 </div>
-                <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
                 <p class="article-content">{{ post.content }}</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium atque aut deserunt distinctio
+                    dolore doloremque expedita, explicabo incidunt ipsum, magnam minus nulla officia quaerat reiciendis
+                    reprehenderit sequi veritatis! Consequuntur corporis eveniet illum iste iusto labore laboriosam
+                    magnam, molestias odit optio porro quisquam repellendus, temporibus, veniam voluptates. Aperiam
+                    architecto aspernatur eveniet facere iste, itaque officiis provident qui voluptas? Debitis delectus
+                    dolore eum excepturi illum itaque nam odio, sed sunt vel. Molestiae omnis quas sapiente unde
+                    voluptatum? Adipisci, aliquid aspernatur atque aut debitis doloribus fugiat neque nostrum nulla quas
+                    quos sint sit unde, veritatis vero. Architecto dignissimos harum iste, natus nulla quo.</p>
             </div>
+            <hr>
+        <small class="text-muted me-auto">{{ post.date_posted|date:"F d, Y" }}</small>
         </article>
     {% endfor %}
 {% endblock content %}
