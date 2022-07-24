@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Settings</legend>
+            {{ user_update_form|crispy }}
+            {{ profile_update_form|crispy }}
+        </fieldset>
+        <div class="form-group mb-4">
+            <button class="btn btn-outline-info" type="submit">Update details</button>
+        </div>
+    </form>
+    </div>
+{% endblock content %}
