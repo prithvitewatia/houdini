@@ -1,17 +1,6 @@
 {% extends 'blog/base.html' %}
 {% block content %}
-    <div class="content-section">
-        <div class="media">
-            <img class="rounded-circle account-img" src="{{ profile_holder.profile.image.url }}">
-            <div class="media-body">
-                <h2 class="account-heading">{{ profile_holder.first_name|title }}
-                    {{ profile_holder.last_name }}</h2>
-                <p class="text-secondary">{{ profile_holder.email }}</p>
-            </div>
-        </div>
-    </div>
-    {% for post in posts %}
-        <article class="media content-section">
+    <article class="media content-section">
             <div class="media-body">
                 <div class="article-metadata">
                     <div class="ms-auto">
@@ -30,15 +19,16 @@
                                     <i class="fa-solid fa-ellipsis-vertical"></i>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="post-extra-button">
+                                <li><a class="dropdown-item">Hide</a></li>
                                     {% if user.is_authenticated %}
-                                        <li><a class="dropdown-item">report</a></li>
+                                        <li><a class="dropdown-item">Report</a></li>
                                         {% if user.is_authenticated and post.author == user %}
-                                            <li><a class="dropdown-item" href="{% url 'post-update' post.id %}">edit</a>
-                                            <li><a class="dropdown-item" href="{% url 'post-delete' post.id %}">delete</a>
+                                            <li><a class="dropdown-item" href="{% url 'post-update' post.id %}">Edit</a>
+                                            <li><a class="dropdown-item text-bg-danger" href="{% url 'post-delete' post.id %}">Delete</a>
                                             </li>
                                         {% endif %}
                                     {% endif %}
-                                    <li><a class="dropdown-item">hide</a></li>
+
                                 </ul>
                             </div>
                         </div>
@@ -59,5 +49,4 @@
                 <button class="btn"><i class="fa-solid fa-share"></i></button>
             </div>
         </article>
-    {% endfor %}
-{% endblock content %}
+{% endblock %}

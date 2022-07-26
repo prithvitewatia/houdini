@@ -1,6 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import ListView
 
 from blog.models import Post
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
@@ -17,6 +20,7 @@ def register(request):
     else:
         form = UserRegisterForm()
     context = {
+        'Title': 'Houdini Register',
         'form': form
     }
     return render(request, 'users/register.html', context)
@@ -24,10 +28,35 @@ def register(request):
 
 @login_required
 def profile(request, username: str):
-    posts = Post.objects.filter(author__username=username)
-    return render(request, 'users/profile.html', {
-        'posts': posts
-    })
+    template_name = ''
+    context = {}
+    try:
+        profile_holder = User.objects.get(username=username)  # Profile holder is a user object
+        posts = Post.objects.filter(author__username=username)
+        template_name = 'users/profile.html'
+        context = {
+            'Title': f'{username} Profile ',
+            'profile_holder': profile_holder,
+            'posts': posts
+        }
+    except ObjectDoesNotExist:
+        template_name = 'PageNotFound.html'
+        context = {
+            'Title': 'Page not found'
+        }
+    finally:
+        return render(request, template_name, context=context)
+
+
+class UserPostListView(ListView):
+    model = Post
+    template_name = 'users/user_posts.html'
+    context_object_name = 'posts'
+    paginate_by = '10'
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Post.objects.filter(author=user).order_by('-date_posted')
 
 
 @login_required
@@ -44,6 +73,7 @@ def settings(request):
         user_update_form = UserUpdateForm(instance=request.user)
         profile_update_form = ProfileUpdateForm(instance=request.user.profile)
     context = {
+        'Title': 'Settings',
         'user_update_form': user_update_form,
         'profile_update_form': profile_update_form
     }

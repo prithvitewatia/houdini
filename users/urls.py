@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import settings, profile
+from .views import *
 
 urlpatterns = [
     path('profile/<str:username>/', profile, name='users-profile'),

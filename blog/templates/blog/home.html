@@ -4,23 +4,72 @@
         <article class="media content-section">
             <div class="media-body">
                 <div class="article-metadata">
-                    <img src="{{ post.author.profile.image.url }}" width="30" height="30" class="rounded-circle">
-                    <small><a class="mr-2 text-decoration-none text-info fw-bold"
-                              href="{% url 'users-profile' username=post.author %}">{{ post.author }}</a></small>
+                    <div class="ms-auto">
+                        <img src="{{ post.author.profile.image.url }}" width="30" height="30" class="rounded-circle"
+                             alt="user-profile-img">
+                        <small>
+                            <a class="mr-2 text-decoration-none text-info fw-bold"
+                               href="{% url 'users-profile' post.author %}">{{ post.author }}</a>
+                        </small>
+                        <div class="float-end">
+                            <div class="btn-group-vertical" role="group">
+                                <button id="post-extra-button" type="button"
+                                        class="btn dropdown-toogle"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="post-extra-button">
+                                    {% if user.is_authenticated %}
+                                        <li><a class="dropdown-item">report</a></li>
+                                        {% if user.is_authenticated and post.author == user %}
+                                            <li><a class="dropdown-item" href="{% url 'post-update' post.id %}">edit</a>
+                                            <li><a class="dropdown-item"
+                                                   href="{% url 'post-delete' post.id %}">delete</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endif %}
+                                    <li><a class="dropdown-item">hide</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="text-center"><h3>{{ post.title }}</h3></div>
+                <div class="text-center">
+                    <a class="text-decoration-none" href="{% url 'post-detail' post.id %}">
+                        <h3>{{ post.title|title }}</h3>
+                    </a>
+                </div>
                 <p class="article-content">{{ post.content }}</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium atque aut deserunt distinctio
-                    dolore doloremque expedita, explicabo incidunt ipsum, magnam minus nulla officia quaerat reiciendis
-                    reprehenderit sequi veritatis! Consequuntur corporis eveniet illum iste iusto labore laboriosam
-                    magnam, molestias odit optio porro quisquam repellendus, temporibus, veniam voluptates. Aperiam
-                    architecto aspernatur eveniet facere iste, itaque officiis provident qui voluptas? Debitis delectus
-                    dolore eum excepturi illum itaque nam odio, sed sunt vel. Molestiae omnis quas sapiente unde
-                    voluptatum? Adipisci, aliquid aspernatur atque aut debitis doloribus fugiat neque nostrum nulla quas
-                    quos sint sit unde, veritatis vero. Architecto dignissimos harum iste, natus nulla quo.</p>
             </div>
             <hr>
-        <small class="text-muted me-auto">{{ post.date_posted|date:"F d, Y" }}</small>
+            <small class="text-muted me-auto">{{ post.date_posted|date:"F d, Y" }}</small>
+            {% if user.is_authenticated %}
+                <div class="btn-group float-end mb-2" role="group">
+                    <button class="btn"><i class="fa-regular fa-heart"></i></button>
+                    <button class="btn"><i class="fa-regular fa-comment"></i></button>
+                    <button class="btn"><i class="fa-solid fa-share"></i></button>
+                </div>
+            {% endif %}
         </article>
     {% endfor %}
+    <div class="text-center p-3">
+        {% if is_paginated %}
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="btn btn-outline-info">First</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-info">Previous page</a>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <a href="?page={{ num }}" class="btn btn-info">{{ num }}</a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?page={{ num }}" class="btn btn-outline-info">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-info">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-info">Last</a>
+            {% endif %}
+        {% endif %}
+    </div>
 {% endblock content %}
