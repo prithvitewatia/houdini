@@ -32,7 +32,7 @@ def profile(request, username: str):
     context = {}
     try:
         profile_holder = User.objects.get(username=username)  # Profile holder is a user object
-        posts = Post.objects.filter(author__username=username)
+        posts = Post.objects.filter(author__username=username).order_by('-date_posted')
         template_name = 'users/profile.html'
         context = {
             'Title': f'{username} Profile ',

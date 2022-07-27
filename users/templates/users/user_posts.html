@@ -2,11 +2,12 @@
 {% block content %}
     <div class="content-section">
         <div class="media">
-            <img class="rounded-circle account-img" src="{{ profile_holder.profile.image.url }}">
+            <img class="rounded-circle account-img" src="{{ post.author.profile.image.url }}">
             <div class="media-body">
-                <h2 class="account-heading">{{ profile_holder.first_name|title }}
-                    {{ profile_holder.last_name }}</h2>
-                <p class="text-secondary">{{ profile_holder.email }}</p>
+                <h2 class="account-heading">{{ view.kwrags.first_name|title }}
+                    {{ view.kwargs.last_name }}</h2>
+                <p class="text-secondary">{{ view.kwargs.email }}</p>
+                <p>{{ view.kwargs.username }} has {{ page_obj.paginator.count }} posts.</p>
             </div>
         </div>
     </div>
