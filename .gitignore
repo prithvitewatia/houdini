@@ -2,3 +2,5 @@
 __pycache__
 media
 .env
+config.json
+static
